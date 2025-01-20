@@ -4,12 +4,13 @@ import pwd
 import os
 import sys
 import subprocess
+import argparse
 
 if not hasattr(sys, '_BECOME_INITIALIZED'):
     sys._SAVED_UID = os.getuid()
     sys._SAVED_GID = os.getgid()
     sys._SAVED_GROUPS = os.getgroups()
-    sys._SAVED_CWD = os.getcwdu()
+    sys._SAVED_CWD = os.getcwd()
     sys._SAVED_ENV = os.environ.copy()
     sys._BECOME_INITIALIZED = True
 
@@ -28,7 +29,7 @@ def become(user):
     sys._SAVED_UID = os.geteuid()
     sys._SAVED_GID = os.getegid()
     sys._SAVED_GROUPS = os.getgroups()
-    sys._SAVED_CWD = os.getcwdu()
+    sys._SAVED_CWD = os.getcwd()
     sys._SAVED_ENV = os.environ.copy()
 
     os.initgroups(userinfo.pw_name, userinfo.pw_gid)
@@ -90,3 +91,21 @@ def restore():
     os.setgroups(sys._SAVED_GROUPS)
     os.chdir(sys._SAVED_CWD)
     os.environ = sys._SAVED_ENV
+
+if __name__ == "__main__":
+    # Argument parsing
+    parser = argparse.ArgumentParser(description='Change user ID for the current process.')
+    parser.add_argument('user', help='The username or UID to become')
+    args = parser.parse_args()
+
+    # Try to become the user specified in the arguments
+    try:
+        print(f"Switching to user {args.user}")
+        become(args.user)
+        print(f"User switched to {args.user} successfully")
+    except ValueError as e:
+        print(f"Error: {e}")
+    
+    print("Restoring original user")
+    restore()
+    print("User restored successfully")
