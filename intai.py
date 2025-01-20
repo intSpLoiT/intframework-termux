@@ -102,15 +102,15 @@ def get_error_info():
 
 def get_usage_info():
     messages_en = [
-        "To start the tool, use the command 'python3 intframework.py'.",
-        "For usage, first configure necessary settings, then run the tool with 'python3 intframework.py'.",
-        "Run the tool from the command line by typing 'python3 intframework.py'."
+        "To start the tool, use the command 'python3 intconsole'.",
+        "For usage, first configure necessary settings, then run the tool with 'python3 intconsole'.",
+        "Run the tool from the command line by typing 'python3 intconsole'."
     ]
     messages_tr = [
-        "Aracı başlatmak için 'python3 intframework.py' komutunu kullanın.",
-        "Kullanım için önce gerekli konfigürasyonları yapın, ardından 'python3 intframework.py' ile aracı çalıştırın.",
-        "Komut satırından 'python3 intframework.py' yazarak aracı çalıştırabilirsiniz."
-    ]
+        "Aracı başlatmak için 'python3 intconsole' komutunu kullanın.",
+        "Kullanım için önce gerekli konfigürasyonları yapın, ardından 'python3 intconsole' ile aracı çalıştırın.",
+        "Komut satırından 'python3 intconsole' yazarak aracı çalıştırabilirsiniz."
+]
     return random.choice(messages_en), random.choice(messages_tr)
 
 def provide_info(query, language):
