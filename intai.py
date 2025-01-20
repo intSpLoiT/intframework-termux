@@ -18,12 +18,12 @@ def extract_relevant_info(error_message, content):
 
 def analyze_error(error_message):
     urls = [
-        "https://github.com/Intikam21kurucu/intframework",
-        "https://github.com/Intikam21kurucu/intframework/issues",
-        "https://github.com/Intikam21kurucu/int-formations",
-        "https://github.com/Intikam21kurucu/int-formations/issues",
-        "https://github.com/Intikam21kurucu/Intikam21",
-        "https://github.com/Intikam21kurucu/Intikam21/issues",
+        "https://github.com/intSpLoiT/intframework",
+        "https://github.com/intSpLoiT/intframework/issues",
+        "https://github.com/intSpLoiT/int-formations",
+        "https://github.com/intSpLoiT/int-formations/issues",
+        "https://github.com/intSpLoiT/intframework-termux",
+        "https://github.com/intSpLoiT/intframework-termux/issues",
         "https://github.com/nmap/nmap",
         "https://github.com/nmap/nmap/issues",
         "https://www.metasploit.com/",
