@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-
+# Code From: https://github.com/n1nj4sec/pupy/
 import os
 import psutil
 import ctypes
-import pupyps
 import pwd
 import socket
-
 from ctypes.util import find_library
 
 xlibs_available = None
@@ -137,45 +135,8 @@ def guess_displays():
             if pair not in displays[DISPLAY] and check_display(DISPLAY, XAUTHORITY):
                 displays[DISPLAY].add(pair)
 
-    for user, hosts in pupyps.users().iteritems():
-        for host, terminals in hosts.iteritems():
-            for terminal in terminals:
-                try:
-                    executable = os.path.basename(
-                        os.path.realpath(terminal['exe'])
-                   )
-
-                    if executable not in ('X', 'Xorg'):
-                        continue
-
-                    DISPLAY = None
-                    XAuthority = None
-                    NextIsXAuthority = False
-
-                    for arg in terminal['cmdline']:
-                        if arg.startswith(':'):
-                            DISPLAY = arg
-                        elif arg == '-auth':
-                            NextIsXAuthority = True
-                        elif NextIsXAuthority:
-                            XAuthority = arg
-                            NextIsXAuthority = False
-
-                    if not DISPLAY:
-                        continue
-
-                    pair = (user, XAuthority)
-                    if DISPLAY not in displays:
-                        displays[DISPLAY] = set()
-
-                    if pair not in displays[DISPLAY] and check_display(DISPLAY, XAuthority):
-                        displays[DISPLAY].add(pair)
-
-                except:
-                    pass
-
     return {
-        k:list(v) for k,v in displays.iteritems()
+        k:list(v) for k,v in displays.items()
     }
 
 def attach_to_display(name, xauth=None):
@@ -199,7 +160,6 @@ def attach_to_display(name, xauth=None):
     return False
 
 def extract_xauth_info(name, authtype='MIT-MAGIC-COOKIE-1'):
-
     load_display_libs()
 
     global xau, Families
@@ -250,3 +210,12 @@ def when_attached(callback, name=':0', poll=10):
     waiter = threading.Thread(target=_waiter)
     waiter.daemon = True
     waiter.start()
+
+if __name__ == "__main__":
+    # Example usage of the functions
+    name = ":0"  # Default display
+    xauth_info = extract_xauth_info(name)
+    if xauth_info:
+        print(f"Extracted XAuth info for display {name}: {xauth_info}")
+    else:
+        print(f"Failed to extract XAuth info for display {name}")
