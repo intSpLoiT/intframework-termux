@@ -234,7 +234,7 @@ class ShellHandler:
             return mem_info.totalMem / (1024 * 1024 * 1024)  # GB cinsinden
         except Exception as e:
             return f"Error fetching total RAM: {str(e)}"
-def get_cpu_info(self):
+    def get_cpu_info(self):
         """Cihazın CPU bilgilerini alır."""
         try:
             # CPU bilgilerini almak için gerekli kütüphaneleri kullanıyoruz
