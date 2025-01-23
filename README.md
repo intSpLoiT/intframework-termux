@@ -1,5 +1,5 @@
 
-# İntikam21 Framework
+# intSpLoiT Framework
 
 <p align="center">
   <img src="https://github.com/Intikam21kurucu/intmages/blob/main/lv_0_20250104175232.gif" alt="Gitter chat">
