@@ -4,7 +4,7 @@ import json
 import shutil
 import platform
 
-tool_link = "https://github.com/Intikam21kurucu/intframework-termux"
+tool_link = "https://github.com/intSpLoiT/intframework-termux"
 
 def check_for_updates():
     try:
