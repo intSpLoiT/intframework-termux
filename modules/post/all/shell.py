@@ -6,7 +6,7 @@ import pkg_resources
 from importlib import import_module
 
 MODNAME = 'shell'
-POSH_PROMPT = 'posh > '
+POSH_PROMPT = 'intshell > '
 USAGE = """Remote shell on target.
 usage: shell [-h]
 \noptions:
